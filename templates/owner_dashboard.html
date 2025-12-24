@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Owner Dashboard</h2>
+<a href="{% url 'add_property' %}">➕ Add Property</a> |
+<a href="{% url 'owner_requests' %}">📩 Requests</a> |
+<a href="#">💳 Payments</a>
+
+<div class="grid">
+{% for p in properties %}
+<div class="card">
+  {% with first=p.images.first %}
+    {% if first and first.thumbnail %}
+      <img src="{{ first.thumbnail.url }}" alt="{{ p.title }}" style="max-width:100%; height:auto;">
+    {% elif p.image %}
+      <img src="{{ p.image.url }}" alt="{{ p.title }}" style="max-width:100%; height:auto;">
+    {% endif %}
+  {% endwith %}
+  <h3>{{ p.title }}</h3>
+  <p>{{ p.location }}</p>
+  <p>₹ {{ p.price }}</p>
+  <p><a href="{% url 'property_detail' p.id %}" style="color:var(--muted);">Details</a></p>
+</div>
+{% empty %}
+<p>No properties added.</p>
+{% endfor %}
+</div>
+
+{% endblock %}

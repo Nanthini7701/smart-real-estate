@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}Smart Real Estate{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --accent:#22c55e;
+  --danger:#ef4444;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui;
+}
+header{
+  background:#020617;
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+/* subtle entrance animation for cards (applies on pages like dashboards) */
+.card{animation:card-pop 360ms cubic-bezier(.2,.9,.3,1) both}
+@keyframes card-pop{from{opacity:0;transform:translateY(8px) scale(.995)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* messages / toasts */
+.messages-container{position:fixed;right:20px;top:20px;z-index:1200;display:flex;flex-direction:column;gap:10px}
+.message{min-width:220px;max-width:360px;padding:12px 14px;border-radius:10px;color:var(--text);box-shadow:0 6px 18px rgba(2,6,23,.6);opacity:0;transform:translateY(-8px);animation:toast-in 300ms ease forwards}
+.message.success{background:linear-gradient(90deg,#0ea5a1,#22c55e)}
+.message.error{background:linear-gradient(90deg,#ef4444,#f97316)}
+.message.info{background:linear-gradient(90deg,#2563eb,#7c3aed)}
+@keyframes toast-in{to{opacity:1;transform:none}}
+.message.fade-out{animation:toast-out 300ms ease forwards}
+@keyframes toast-out{to{opacity:0;transform:translateY(-10px)}}
+button{
+  background:var(--accent);
+  border:none;
+  padding:10px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+}
+input,textarea{
+  width:100%;
+  padding:10px;
+  background:#020617;
+  border:1px solid #1f2933;
+  color:white;
+  border-radius:6px;
+  margin-bottom:12px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+}
+footer{
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <strong>🏢 Smart Real Estate</strong>
+  {% if user.is_authenticated %}
+    <a href="/logout/">Logout</a>
+  {% endif %}
+</header>
+
+<div class="container">
+  {% if messages %}
+  <div class="messages-container" id="messages">
+    {% for message in messages %}
+      <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</div>
+
+<footer>
+  © 2025 Smart Real Estate System
+</footer>
+
+</body>
+
+<!-- Auto-dismiss messages and allow click-to-close -->
+<script>
+  (function(){
+    const container = document.getElementById('messages');
+    if(!container) return;
+    const toasts = Array.from(container.querySelectorAll('.message'));
+    toasts.forEach((t, i)=>{
+      // Allow manual dismiss on click
+      t.addEventListener('click', ()=>{
+        t.classList.add('fade-out');
+        setTimeout(()=>t.remove(),350);
+      });
+      // Auto dismiss after 4s + small stagger
+      setTimeout(()=>{
+        t.classList.add('fade-out');
+        setTimeout(()=>t.remove(),350);
+      }, 3800 + i*180);
+    });
+  })();
+</script>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+
+<div class="card" style="max-width:400px;margin:auto;">
+<h2>{% if role == 'owner' %}Owner Login{% elif role == 'tenant' %}Tenant Login{% else %}Login{% endif %}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+  {% endif %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
+
+<p style="margin-top:10px;">
+{% if role == 'owner' %}
+  <a href="{% url 'login_tenant' %}">Tenant Login</a> |
+  <a href="{% url 'signup_owner' %}">Owner Signup</a> |
+  <a href="{% url 'signup_tenant' %}">Tenant Signup</a>
+{% elif role == 'tenant' %}
+  <a href="{% url 'login_owner' %}">Owner Login</a> |
+  <a href="{% url 'signup_owner' %}">Owner Signup</a> |
+  <a href="{% url 'signup_tenant' %}">Tenant Signup</a>
+{% else %}
+  <a href="{% url 'login_owner' %}">Owner Login</a> |
+  <a href="{% url 'login_tenant' %}">Tenant Login</a> |
+  <a href="{% url 'signup_owner' %}">Owner Signup</a> |
+  <a href="{% url 'signup_tenant' %}">Tenant Signup</a>
+{% endif %}
+</p>
+</div>
+
+{% endblock %}

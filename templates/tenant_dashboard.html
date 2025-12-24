@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Available Properties</h2>
+
+<div class="grid">
+{% for p in properties %}
+  <div class="card">
+    {% with first=p.images.first %}
+      {% if first and first.thumbnail %}
+        <img src="{{ first.thumbnail.url }}" alt="{{ p.title }}" style="max-width:100%; height:auto;">
+      {% elif p.image %}
+        <img src="{{ p.image.url }}" alt="{{ p.title }}" style="max-width:100%; height:auto;">
+      {% endif %}
+    {% endwith %}
+    <h3>{{ p.title }}</h3>
+    <p>{{ p.location }}</p>
+    <p>₹ {{ p.price }}</p>
+
+    <!-- 🔥 BOOK & PAY -->
+    <a href="{% url 'send_request' p.id %}" class="btn btn-pay">
+      Book & Pay
+    </a>
+    <a href="{% url 'property_detail' p.id %}" style="margin-left:8px;color:var(--muted);">Details</a>
+  </div>
+{% empty %}
+  <p>No properties available</p>
+{% endfor %}
+</div>
+
+{% endblock %}

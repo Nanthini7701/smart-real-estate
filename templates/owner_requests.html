@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Booking Requests</h2>
+
+{% for r in requests %}
+<div class="card">
+  <p><b>{{ r.property.title }}</b></p>
+  <p>Tenant: {{ r.tenant.username }}</p>
+  <p>Status: {{ r.status }}</p>
+
+  {% if r.status == 'pending' %}
+    <a href="{% url 'update_request' r.id 'approved' %}">Approve</a> |
+    <a href="{% url 'update_request' r.id 'rejected' %}" style="color:var(--danger)">Reject</a>
+  {% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}

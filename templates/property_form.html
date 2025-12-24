@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card" style="max-width:500px;">
+<h2>Add Property</h2>
+
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input name="title" placeholder="Title" required>
+<input name="location" placeholder="Location" required>
+<input name="price" placeholder="Price" required>
+<textarea name="description" placeholder="Description"></textarea>
+<label>Image (optional)</label>
+<input type="file" name="images" accept="image/*" multiple>
+<button>Add Property</button>
+</form>
+
+</div>
+{% endblock %}
