@@ -4,3 +4,4 @@ gunicorn==21.2.0
 Pillow>=10.3.0
 psycopg2-binary
 razorpay==1.4.2
+setuptools>=68.0.0
