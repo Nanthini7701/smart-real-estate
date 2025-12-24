@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6*arzuzyhww(7js66)mv8h5&6$sxlzghj(*!@if3#7h1w2x3$&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['smart-real-estate-yjqo.onrender.com']
+ALLOWED_HOSTS = ['smart-real-estate-9cc4.onrender.com']
 
 
 # Application definition
